@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ChatGPT Prompt Options</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .option-label {
+            font-weight: bold;
+        }
+
+        .option-input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>ChatGPT Prompt Options</h1>
+
+    <div>
+        <label class="option-label" for="promptText">Custom Prompt:</label>
+        <input class="option-input" type="text" id="promptText" placeholder="Enter your custom prompt">
+    </div>
+
+    <button id="saveSettings">Save Settings</button>
+
+    <script>
+        // JavaScript code to handle options/settings can be placed here
+        const promptInput = document.getElementById('promptText');
+        const saveButton = document.getElementById('saveSettings');
+
+        // Load the saved prompt text (if available) when the options page is opened
+        chrome.storage.sync.get(['customPrompt'], (result) => {
+            if (result.customPrompt) {
+                promptInput.value = result.customPrompt;
+            }
+        });
+
+        // Save the custom prompt text when the user clicks the "Save Settings" button
+        saveButton.addEventListener('click', () => {
+            const customPrompt = promptInput.value;
+
+            // Save the custom prompt text to Chrome storage
+            chrome.storage.sync.set({ 'customPrompt': customPrompt }, () => {
+                // Provide feedback to the user (e.g., "Settings saved!")
+                // You can update the HTML to show a success message
+                promptInput.value = customPrompt;
+            });
+        });
+    </script>
+</body>
+</html>
